@@ -1,6 +1,6 @@
 {
   "fecha": "2026-11-05",
-  "proyecto": "8981507, con cambios sin commit",
+  "proyecto": "18fb275, con cambios sin commit",
   "huellas": {
     "RedNexa.Core/Auth/PasswordPolicy.cs": "b607bbcb0dd40c6e",
     "RedNexa.Core/Auth/Roles.cs": "ff3ef4380b8e993b",
@@ -29,7 +29,9 @@
     "RedNexa.Core/Text/TextoLibre.cs": "16e77a66b477f5f3",
     "RedNexa.Infrastructure/Data/Seed/CategoriaCatalog.cs": "5aac97a227515b3b",
     "RedNexa.Infrastructure/Data/Seed/DatabaseSeeder.cs": "efd4213de69d3405",
+    "RedNexa.Infrastructure/Data/Seed/DestacadosDeEjemplo.cs": "2c445868cc8ce0f1",
     "RedNexa.Infrastructure/Data/Seed/FotosDeEjemplo.cs": "3f78286085d1edbf",
+    "RedNexa.Infrastructure/Data/Seed/SampleData.Destacados.cs": "35632570173bb691",
     "RedNexa.Infrastructure/Data/Seed/SampleData.UnoPorCategoria.cs": "fc53546d45ab03a7",
     "RedNexa.Infrastructure/Data/Seed/SampleData.cs": "a36d5a274059e6db",
     "RedNexa.Infrastructure/Data/Seed/ZonaCatalog.cs": "6c89f8c103756811",
