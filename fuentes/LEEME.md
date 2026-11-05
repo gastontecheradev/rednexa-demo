@@ -10,6 +10,24 @@ Con esto se rearma `sitio/index.html` cuando cambia el sitio de Red Nexa. Hace f
 
 `seed.json`, `fotos/` y `app-armada.js` se generan: no se versionan.
 
+## ¿La demo está al día?
+
+`sincronia.json` guarda una huella de cada archivo del proyecto que la demo copia (vistas, CSS, scripts, datos de ejemplo, controladores y reglas), tomada la última vez que se puso al día.
+
+```
+node sincronia.mjs revisar "$WEB/.."
+```
+
+Lista lo que cambió desde entonces, en dos grupos: lo que hay que pasar a mano a `src/` (vistas, textos, reglas) y lo que se resuelve rearmando (CSS, fuentes, fotos, datos de ejemplo). Con `--estricto` sale con código 1 si la demo quedó atrás.
+
+Después de poner la demo al día, rearmarla y probarla:
+
+```
+node sincronia.mjs marcar "$WEB/.."
+```
+
+y subir `sincronia.json` junto con `sitio/index.html`.
+
 ## Rearmar la demo
 
 ```
