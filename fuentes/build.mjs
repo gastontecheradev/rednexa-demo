@@ -59,10 +59,10 @@ const html = `<!DOCTYPE html>
     <meta property="og:title" content="Demo de Red Nexa" />
     <meta property="og:description" content="La guía de servicios de Melo: el sitio completo, con datos de ejemplo." />
     <meta property="og:url" content="https://gastontecheradev.github.io/rednexa-demo/" />
-    <meta property="og:image" content="https://gastontecheradev.github.io/rednexa-demo/compartir.png" />
+    <meta property="og:image" content="https://gastontecheradev.github.io/rednexa-demo/compartir.png?v=2" />
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+    <meta property="og:image:height" content="1044" />
     <meta property="og:image:alt" content="Logo de Red Nexa" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="${favicon}" sizes="32x32" />
