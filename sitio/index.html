@@ -12147,7 +12147,7 @@ function pComoFunciona() {
                     <tr class="tarifas__destacado"><th scope="row">Destacado</th><td>${F.money(t.dest)}</td><td class="tarifas__nada tarifas__anual">Sólo mensual</td><td class="tarifas__incluye">Primeros lugares en tu categoría. Incluye la cuota del mes</td></tr>
                 </tbody>
             </table>
-            <p class="tarifas__nota">Importes en pesos uruguayos, por mes. Con servicios en los dos grandes rubros se paga sólo la cuota de Profesionales. No hay devoluciones, tampoco del pago anual ni del destacado.</p>
+            <p class="tarifas__nota">Importes en pesos uruguayos, por mes.</p>
         </section>
         <aside class="aviso-identidad" aria-labelledby="identidad-titulo">
             ${icono('alerta')}
@@ -12557,11 +12557,9 @@ function postReenviar(ctx, d) {
 function pIngresar(ctx, m = null, errores = {}) {
     if (!m && ctx.usuario) return { redirect: destino(ctx.query.get('volver')) };
     m ||= { Volver: ctx.query.get('volver') || '' };
-    const vuelve = esLocal(m.Volver) && m.Volver !== '/';
     const cuerpo = html`
     <div class="acceso">
         <section class="acceso__tarjeta acceso__tarjeta--angosta" aria-labelledby="ingreso-titulo">
-            ${vuelve ? html`<p class="aviso">Después de ingresar volvés a la página donde estabas.</p>` : ''}
             <h1 id="ingreso-titulo" class="acceso__titulo">Ingresar</h1>
             <form class="formulario" action="/ingresar" method="post" novalidate>
                 ${resumen(errores)}

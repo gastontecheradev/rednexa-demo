@@ -212,11 +212,9 @@ function postReenviar(ctx, d) {
 function pIngresar(ctx, m = null, errores = {}) {
     if (!m && ctx.usuario) return { redirect: destino(ctx.query.get('volver')) };
     m ||= { Volver: ctx.query.get('volver') || '' };
-    const vuelve = esLocal(m.Volver) && m.Volver !== '/';
     const cuerpo = html`
     <div class="acceso">
         <section class="acceso__tarjeta acceso__tarjeta--angosta" aria-labelledby="ingreso-titulo">
-            ${vuelve ? html`<p class="aviso">Después de ingresar volvés a la página donde estabas.</p>` : ''}
             <h1 id="ingreso-titulo" class="acceso__titulo">Ingresar</h1>
             <form class="formulario" action="/ingresar" method="post" novalidate>
                 ${resumen(errores)}

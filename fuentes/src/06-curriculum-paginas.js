@@ -227,7 +227,7 @@ function pComoFunciona() {
                     <tr class="tarifas__destacado"><th scope="row">Destacado</th><td>${F.money(t.dest)}</td><td class="tarifas__nada tarifas__anual">Sólo mensual</td><td class="tarifas__incluye">Primeros lugares en tu categoría. Incluye la cuota del mes</td></tr>
                 </tbody>
             </table>
-            <p class="tarifas__nota">Importes en pesos uruguayos, por mes. Con servicios en los dos grandes rubros se paga sólo la cuota de Profesionales. No hay devoluciones, tampoco del pago anual ni del destacado.</p>
+            <p class="tarifas__nota">Importes en pesos uruguayos, por mes.</p>
         </section>
         <aside class="aviso-identidad" aria-labelledby="identidad-titulo">
             ${icono('alerta')}
