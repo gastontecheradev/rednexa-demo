@@ -1,6 +1,6 @@
 // Arma rednexademo.html: el CSS del sitio con las fuentes adentro, las fotos, los datos de ejemplo y la app.
 // Uso: node build.mjs <carpeta RedNexa.Web> <salida.html>
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, copyFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -22,6 +22,11 @@ for (const f of readdirSync(join(aqui, 'fotos')).filter((x) => x.endsWith('.webp
 const portada = {};
 for (const ancho of [800, 1280, 1960]) portada[ancho] = `data:image/jpeg;base64,${b64(join(web, `wwwroot/img/portada-${ancho}.jpg`))}`;
 const favicon = `data:image/x-icon;base64,${b64(join(web, 'wwwroot/favicon.ico'))}`;
+const faviconSvg = `data:image/svg+xml;base64,${b64(join(web, 'wwwroot/favicon.svg'))}`;
+const iconoApple = `data:image/png;base64,${b64(join(web, 'wwwroot/apple-touch-icon.png'))}`;
+const logo = `data:image/svg+xml;base64,${b64(join(web, 'wwwroot/img/logo.svg'))}`;
+// La imagen para compartir el enlace va al lado de index.html: WhatsApp y las redes piden una dirección absoluta.
+copyFileSync(join(web, 'wwwroot/img/compartir.png'), join(dirname(salida), 'compartir.png'));
 
 const json = (v) => JSON.stringify(v).replace(/</g, '\\u003c');
 const seed = JSON.parse(readFileSync(join(aqui, 'seed.json'), 'utf8'));
@@ -34,6 +39,7 @@ const js = `(() => {
 const SEED = ${json(seed)};
 const FOTOS = ${json(fotos)};
 const PORTADA = ${json(portada)};
+const LOGO = ${json(logo)};
 ${app}
 })();`;
 writeFileSync(join(aqui, 'app-armada.js'), js);
@@ -47,7 +53,21 @@ const html = `<!DOCTYPE html>
     <meta name="description" content="Demo de Red Nexa, la guía de servicios de Melo: el sitio completo, con datos de ejemplo, en un solo archivo." />
     <meta name="robots" content="noindex" />
     <meta name="theme-color" content="#08694f" />
-    <link rel="icon" href="${favicon}" />
+    <meta property="og:site_name" content="Red Nexa" />
+    <meta property="og:locale" content="es_UY" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Demo de Red Nexa" />
+    <meta property="og:description" content="La guía de servicios de Melo: el sitio completo, con datos de ejemplo." />
+    <meta property="og:url" content="https://gastontecheradev.github.io/rednexa-demo/" />
+    <meta property="og:image" content="https://gastontecheradev.github.io/rednexa-demo/compartir.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Logo de Red Nexa: la guía de servicios de Melo" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" href="${favicon}" sizes="32x32" />
+    <link rel="icon" href="${faviconSvg}" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="${iconoApple}" />
     <style>
 ${css}
     </style>
