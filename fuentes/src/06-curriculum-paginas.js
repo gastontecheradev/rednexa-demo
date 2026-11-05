@@ -84,7 +84,7 @@ function pCurriculum(ctx) {
             </div>` : html`<ol class="cv-tarjetas">
                 ${filas.map((cv) => {
                     const u = usuarioDe(cv.usuarioId);
-                    const nombre = nombreConInicial(u.nombre, u.apellido);
+                    const nombre = nombreCompleto(u);
                     const ops = nombresOportunidad(cv.oportunidades);
                     const zonasCv = cv.zonaIds.map(zonaDe).sort((a, b) => a.orden - b.orden).map((z) => z.nombre);
                     return html`<li class="cv-tarjeta">
@@ -122,16 +122,16 @@ function pFichaCv(ctx, id) {
     if (!cvVisible(cv) && !propio) return null;
     if (!cvVisible(cv)) return null;
     const u = usuarioDe(cv.usuarioId);
-    const nombre = nombreConInicial(u.nombre, u.apellido);
-    const ingresar = conVolver('/ingresar', `/curriculum/${cv.id}`);
+    const nombre = nombreCompleto(u);
     const ops = nombresOportunidad(cv.oportunidades);
     const cursos = lineasCv(cv.cursos);
     const experiencia = lineasCv(cv.experiencia);
     const zonas = cv.zonaIds.map(zonaDe).sort((a, b) => a.orden - b.orden).map((z) => z.nombre);
-    const contacto = yo ? { nombre: nombreCompleto(u), telefono: cv.telefono, correo: cv.mostrarCorreo ? u.correo : null } : null;
-    const telefono = contacto?.telefono ? Tel.formato(contacto.telefono) : null;
-    const llamar = contacto?.telefono ? `tel:+${contacto.telefono}` : null;
-    const whatsapp = contacto?.telefono ? Tel.whatsapp(contacto.telefono, MENSAJE_CV) : null;
+    // RN-49: el contacto es público, con o sin sesión; el correo, sólo si la persona eligió mostrarlo.
+    const contacto = { telefono: cv.telefono, correo: cv.mostrarCorreo ? u.correo : null };
+    const telefono = contacto.telefono ? Tel.formato(contacto.telefono) : null;
+    const llamar = contacto.telefono ? `tel:+${contacto.telefono}` : null;
+    const whatsapp = contacto.telefono ? Tel.whatsapp(contacto.telefono, MENSAJE_CV) : null;
     const renglones = (lineas, clase) => html`<ul class="cv-renglones ${clase}">${lineas.map((l) => html`<li${attr('class', l.cuando ? null : 'cv-renglones__solo')}>
         ${l.cuando ? html`<span class="cv-renglones__cuando">${l.cuando}</span>` : ''}
         <span class="cv-renglones__texto">${l.texto}</span>
@@ -160,13 +160,8 @@ function pFichaCv(ctx, id) {
                 ${experiencia.length ? html`<section class="ficha__seccion" aria-labelledby="experiencia"><h2 class="ficha__subtitulo" id="experiencia">Experiencia</h2>${renglones(experiencia, 'cv-renglones--experiencia')}</section>` : ''}
             </div>
             <aside class="ficha__lateral">
-                <section class="contacto${contacto ? '' : ' cv-contacto--sin-sesion'}" aria-labelledby="contacto-titulo">
+                <section class="contacto" aria-labelledby="contacto-titulo">
                     <h2 class="ficha__subtitulo cv-ficha__subtitulo" id="contacto-titulo">Contacto</h2>
-                    ${!contacto ? html`
-                        <p class="cv-contacto__aviso">${icono('candado')}Iniciá sesión para ver el apellido, el teléfono y el correo.</p>
-                        <a class="boton boton--primario boton--ancho" href="${ingresar}">Ingresar para ver el contacto</a>` : html`
-                        <p class="contacto__etiqueta">Nombre</p>
-                        <p class="cv-contacto__nombre">${contacto.nombre}</p>
                         ${telefono ? html`<p class="contacto__etiqueta">Teléfono</p>
                             <p class="contacto__telefono">${telefono}</p>
                             <div class="contacto__botones">
@@ -175,7 +170,7 @@ function pFichaCv(ctx, id) {
                             </div>` : ''}
                         ${contacto.correo ? html`<p class="contacto__etiqueta">Correo</p><p class="cv-contacto__correo"><a href="mailto:${contacto.correo}">${contacto.correo}</a></p>` : ''}
                         ${!telefono && !contacto.correo ? html`<p class="contacto__oculta">No dejó un teléfono ni eligió mostrar su correo.</p>` : ''}
-                        ${propio ? html`<p class="contacto__oculta">Así ven tu CV las personas con sesión. <a href="/mi-curriculum">Editar mi CV</a></p>` : ''}`}
+                        ${propio ? html`<p class="contacto__oculta">Así se ve tu CV. <a href="/mi-curriculum">Editar mi CV</a></p>` : ''}
                 </section>
                 ${zonas.length ? html`<section class="donde" aria-labelledby="donde-titulo">
                     <h2 class="ficha__subtitulo cv-ficha__subtitulo" id="donde-titulo">Dónde</h2>
@@ -183,12 +178,9 @@ function pFichaCv(ctx, id) {
                 </section>` : ''}
             </aside>
         </div>
-        ${contacto && !propio ? html`<p class="ficha__reportar"><a href="/curriculum/${cv.id}/reportar">Reportar esta publicación</a></p>` : ''}
+        ${yo && !propio ? html`<p class="ficha__reportar"><a href="/curriculum/${cv.id}/reportar">Reportar esta publicación</a></p>` : ''}
     </article>
-    ${!contacto ? html`<div class="contacto-fijo contacto-fijo--columna">
-        <a class="boton boton--primario" href="${ingresar}">${icono('candado')}Ingresar para ver el contacto</a>
-        <p class="contacto-fijo__nota">Con sesión ves el apellido, el teléfono y el correo.</p>
-    </div>` : llamar && !propio ? html`<div class="contacto-fijo">
+    ${llamar && !propio ? html`<div class="contacto-fijo">
         <a class="boton boton--secundario" href="${llamar}">Llamar</a>
         ${whatsapp ? html`<a class="boton boton--primario" href="${whatsapp}" rel="noopener noreferrer" target="_blank">WhatsApp</a>` : ''}
     </div>` : ''}`;
@@ -358,7 +350,7 @@ function pTerminos() {
                 <h2>4. Publicaciones</h2>
                 <p>Quien publica un servicio o un CV es responsable de lo que dice y de las fotos que sube: tienen que describir un servicio o una experiencia real, y las fotos tienen que ser propias o usadas con permiso.</p>
                 <p>Lo que se publica se ve en el acto. Antes, los textos pasan por un filtro automático de palabras: si encuentra alguna que no se permite, la publicación no se muestra hasta que se corrija. La administración puede revisar lo publicado en cualquier momento y, con un motivo, ocultar un servicio o un CV, o eliminar una foto.</p>
-                <p>En la ficha de un servicio, el teléfono de contacto es público y la dirección del local la ven sólo las personas con la sesión iniciada. De un CV, sin sesión se ve el nombre con la inicial del apellido.</p>
+                <p>En la ficha de un servicio, el teléfono de contacto es público y la dirección del local la ven sólo las personas con la sesión iniciada. Un CV se ve entero, con el nombre, el apellido y el teléfono; el correo, sólo si quien lo publica elige mostrarlo.</p>
             </section>
             <section id="opiniones" class="legal__seccion">
                 <h2>5. Opiniones</h2>
@@ -385,8 +377,8 @@ function pPrivacidad() {
         ['Nombre del proveedor y su ficha', 'Sí', 'Sí', 'Deja de verse y se borran sus datos'],
         ['Teléfono de contacto del servicio', 'Sí', 'Sí', 'Se borra'],
         ['Dirección del local', 'No', 'Sí', 'Se borra'],
-        ['CV: nombre con la inicial, qué sabés hacer, cursos y experiencia', 'Sí', 'Sí', 'El CV se borra entero'],
-        ['CV: apellido, teléfono y correo', 'No', 'Sí; el correo, si lo elegís', 'El CV se borra entero'],
+        ['CV: nombre y apellido, qué sabés hacer, cursos, experiencia y teléfono', 'Sí', 'Sí', 'El CV se borra entero'],
+        ['CV: correo', 'Si lo elegís', 'Si lo elegís', 'El CV se borra entero'],
         ['Opiniones que escribiste', 'Sí, con tu nombre e inicial', 'Sí', 'Quedan como “Usuario eliminado”'],
         ['Correo, teléfono y foto de tu cuenta', 'No', 'No', 'Se borran'],
         ['Documento de identidad', 'No se pide', 'No se pide', '—']

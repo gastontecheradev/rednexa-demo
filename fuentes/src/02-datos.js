@@ -38,7 +38,7 @@ function cargarBase() {
         guardada = null;
     }
     // Una base sembrada en otro mes se vuelve a sembrar: las cuotas y los destacados son del mes.
-    if (guardada && guardada.version === 3 && guardada.semilla && periodoActual(guardada.semilla) === periodoActual()) {
+    if (guardada && guardada.version === 4 && guardada.semilla && periodoActual(guardada.semilla) === periodoActual()) {
         db = guardada;
         return;
     }
@@ -67,7 +67,7 @@ const finDePrueba = (activacionMs) => ultimoDia(sumarDias(diaUy(activacionMs), D
 
 function sembrar(now) {
     db = {
-        version: 3,
+        version: 4,
         semilla: now,
         seq: {},
         categorias: [],
@@ -199,7 +199,7 @@ function sembrar(now) {
         const actualizado = now - c.diasDesdeActualizacion * DIA;
         const u = nuevoUsuario(c.nombre, c.apellido, actualizado - 30 * DIA);
         db.curriculums.push({
-            id: nuevoId('curriculums'), usuarioId: u.id, queSabeHacer: c.queSabeHacer, cursos: c.cursos, experiencia: null, telefono: null,
+            id: nuevoId('curriculums'), usuarioId: u.id, queSabeHacer: c.queSabeHacer, cursos: c.cursos, experiencia: null, telefono: c.telefono,
             mostrarCorreo: false, oportunidades: c.oportunidades.reduce((a, o) => a | OPORT[o], 0), zonaIds: [zona(c.zona).id],
             estado: c.estado, ocultoPorFiltro: false, terminos: [], publicacion: actualizado, actualizacion: actualizado, revision: null
         });

@@ -159,11 +159,17 @@ await llenar('#Cursos', '2024 Atención al cliente (INEFOP)');
 await clic('.cv-propio__acciones button[type=submit]');
 ok((await texto('.cuenta-pagina__contenido > .aviso')) === 'Listo, tu CV ya se ve en Curriculum.', 'CV publicado');
 await ir('/curriculum');
-ok((await b.evaluar(`[...document.querySelectorAll('.cv-tarjeta__nombre')].map((x) => x.textContent.trim())`)).includes('María G.'), 'CV en el listado');
+ok((await b.evaluar(`[...document.querySelectorAll('.cv-tarjeta__nombre')].map((x) => x.textContent.trim())`)).includes('María González'), 'CV en el listado, con el nombre completo');
 
 // 8. Salir y volver a la página después de ingresar.
 await b.evaluar(`document.querySelector('details.cuenta form button').click()`);
 await b.esperar(300);
+
+// RN-49: sin sesión, el CV se ve entero, con el teléfono y WhatsApp.
+await ir('/curriculum/1');
+ok((await texto('.ficha__titulo')) === 'Lucía Ramírez', 'CV sin sesión: nombre completo');
+ok((await texto('.contacto__telefono')) === '099 100 001', 'CV sin sesión: teléfono');
+ok(await b.evaluar(`!!document.querySelector('.contacto a[href^="https://wa.me/59899100001"]')`), 'CV sin sesión: WhatsApp');
 await ir('/juan-perez');
 await clicTexto('Escribir una opinión');
 ok((await hash()).startsWith('#/ingresar?volver='), 'sin sesión, opinar pide ingresar');

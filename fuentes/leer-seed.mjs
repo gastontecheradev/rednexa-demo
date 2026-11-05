@@ -183,7 +183,8 @@ const curriculums = arreglo(sample, 'CvDePrueba[] Curriculums').map((c) => ({
     zona: c.args[4].enum ? 'Todo el departamento' : c.args[4],
     diasDesdeActualizacion: c.args[5],
     estado: c.args[6] ? enumValor(c.args[6])[0] : 'Publicado',
-    cursos: c.nombrados.Cursos ?? null
+    cursos: c.nombrados.Cursos ?? null,
+    telefono: c.nombrados.Telefono ?? null
 }));
 
 const datos = {

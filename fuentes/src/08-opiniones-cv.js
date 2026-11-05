@@ -326,7 +326,7 @@ function datosReporteCv(ctx, id) {
     const yo = ctx.usuario;
     const u = usuarioDe(cv.usuarioId);
     return {
-        cv, esOpinion: false, subtitulo: `CV de ${nombreConInicial(u.nombre, u.apellido)}`,
+        cv, esOpinion: false, subtitulo: `CV de ${nombreCompleto(u)}`,
         situacion: situacionReporte(yo, cv.usuarioId === yo.id, db.reportesPublicacion.some((x) => x.curriculumId === id && x.usuarioId === yo.id && x.estado === 'Pendiente')),
         accion: `/curriculum/${id}/reportar`, volverA: `/curriculum/${id}`, volverTexto: 'Volver al CV', motivos: MOTIVOS_OPINION
     };
@@ -484,7 +484,7 @@ function pMiCurriculum(ctx, m = null, errores = {}) {
         : cv && cv.estado === 'Oculto' ? html`<p class="aviso aviso--alerta" role="status">La administración ocultó tu CV y no se ve en Curriculum. Podés corregirlo: vuelve a verse cuando la administración lo revise.</p>`
         : cv && cv.estado === 'Pausado' ? html`<p class="aviso" role="status">Tu CV está pausado: no se ve en Curriculum y tus datos quedan guardados.</p>` : ''}
     <p class="nota-suave">
-        Nombre y correo salen de tu cuenta: <strong>${nombreCompleto(u)}</strong>. En el listado público se ve “${nombreConInicial(u.nombre, u.apellido)}”.
+        Nombre y correo salen de tu cuenta: tu CV se publica como <strong>${nombreCompleto(u)}</strong>.
         Se publica al instante. Antes, el texto pasa por un filtro automático de palabras: si encuentra alguna que no se permite, te la marcamos para que la corrijas.
     </p>
     <form class="formulario cv-propio" action="/mi-curriculum" method="post" novalidate data-envio-unico>
@@ -505,13 +505,13 @@ function pMiCurriculum(ctx, m = null, errores = {}) {
         <div class="campo campo--corto">
             <label class="campo__etiqueta" for="Telefono">Teléfono <span class="campo__opcional">(opcional)</span></label>
             <input class="control${conError(errores, 'Telefono')}" type="tel" inputmode="tel" autocomplete="tel" placeholder="099 000 000" aria-describedby="telefono-ayuda" id="Telefono" name="Telefono" value="${m.Telefono ?? ''}" />
-            <p class="campo__ayuda" id="telefono-ayuda">Sólo lo ven las personas que iniciaron sesión.</p>
+            <p class="campo__ayuda" id="telefono-ayuda">Se ve en tu CV, con un botón para llamar y otro de WhatsApp si es un celular.</p>
             ${errorDe(errores, 'Telefono')}
         </div>
         <label class="interruptor">
             <input class="interruptor__casilla" type="checkbox" role="switch" name="MostrarCorreo" value="true"${bool('checked', m.MostrarCorreo === 'true')} />
             <span class="interruptor__pista" aria-hidden="true"></span>
-            <span>Mostrar mi correo (${u.correo}) a usuarios con sesión</span>
+            <span>Mostrar mi correo (${u.correo}) en mi CV</span>
         </label>
         <div class="formulario__acciones cv-propio__acciones">
             <button type="submit" class="boton boton--primario">${cv ? 'Guardar' : 'Publicar mi CV'}</button>
