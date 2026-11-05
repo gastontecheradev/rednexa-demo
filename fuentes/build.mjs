@@ -63,7 +63,7 @@ const html = `<!DOCTYPE html>
     <meta property="og:image:type" content="image/png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content="Logo de Red Nexa: la guía de servicios de Melo" />
+    <meta property="og:image:alt" content="Logo de Red Nexa" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="${favicon}" sizes="32x32" />
     <link rel="icon" href="${faviconSvg}" type="image/svg+xml" />

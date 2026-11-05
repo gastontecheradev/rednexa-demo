@@ -1,6 +1,6 @@
 {
   "fecha": "2026-11-05",
-  "proyecto": "17fdcb9, con cambios sin commit",
+  "proyecto": "997c5bd, con cambios sin commit",
   "huellas": {
     "RedNexa.Core/Auth/PasswordPolicy.cs": "b607bbcb0dd40c6e",
     "RedNexa.Core/Auth/Roles.cs": "ff3ef4380b8e993b",
@@ -345,7 +345,7 @@
     "RedNexa.Web/Views/Shared/Error.cshtml": "16e3bf4c52108b4e",
     "RedNexa.Web/Views/Shared/_Calificacion.cshtml": "b29b6ebf57ff915f",
     "RedNexa.Web/Views/Shared/_Icono.cshtml": "80c3784c10aff888",
-    "RedNexa.Web/Views/Shared/_Layout.cshtml": "1f652929e169da9d",
+    "RedNexa.Web/Views/Shared/_Layout.cshtml": "0f1881bbdecbe932",
     "RedNexa.Web/Views/Shared/_LoginPartial.cshtml": "3d8caa277b33719c",
     "RedNexa.Web/Views/Shared/_NotaCorreoDesarrollo.cshtml": "4209e34e88676e93",
     "RedNexa.Web/Views/Shared/_OpcionesGranRubro.cshtml": "8207a9814fa3d008",
@@ -363,7 +363,7 @@
     "RedNexa.Web/wwwroot/fonts/archivo-latin.woff2": "e3a28eade21a900c",
     "RedNexa.Web/wwwroot/fonts/onest-latin-ext.woff2": "14e7d3079b75860e",
     "RedNexa.Web/wwwroot/fonts/onest-latin.woff2": "052df74533250c2e",
-    "RedNexa.Web/wwwroot/img/compartir.png": "088941ab908fc71c",
+    "RedNexa.Web/wwwroot/img/compartir.png": "80b32b82e8b66b97",
     "RedNexa.Web/wwwroot/img/icono-192.png": "df3cb07d631ad3af",
     "RedNexa.Web/wwwroot/img/icono-512.png": "2a0398a3a174c403",
     "RedNexa.Web/wwwroot/img/icono-maskable-512.png": "fad19c3fc4e30c51",
