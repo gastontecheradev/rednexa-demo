@@ -25,6 +25,7 @@ const favicon = `data:image/x-icon;base64,${b64(join(web, 'wwwroot/favicon.ico')
 const faviconSvg = `data:image/svg+xml;base64,${b64(join(web, 'wwwroot/favicon.svg'))}`;
 const iconoApple = `data:image/png;base64,${b64(join(web, 'wwwroot/apple-touch-icon.png'))}`;
 const logo = `data:image/svg+xml;base64,${b64(join(web, 'wwwroot/img/logo.svg'))}`;
+const logo26 = `data:image/svg+xml;base64,${b64(join(web, 'wwwroot/img/logo-26.svg'))}`;
 // La imagen para compartir el enlace va al lado de index.html: WhatsApp y las redes piden una dirección absoluta.
 copyFileSync(join(web, 'wwwroot/img/compartir.png'), join(dirname(salida), 'compartir.png'));
 
@@ -40,6 +41,7 @@ const SEED = ${json(seed)};
 const FOTOS = ${json(fotos)};
 const PORTADA = ${json(portada)};
 const LOGO = ${json(logo)};
+const LOGO_26 = ${json(logo26)};
 ${app}
 })();`;
 writeFileSync(join(aqui, 'app-armada.js'), js);
@@ -59,10 +61,10 @@ const html = `<!DOCTYPE html>
     <meta property="og:title" content="Demo de Red Nexa" />
     <meta property="og:description" content="La guía de servicios de Melo: el sitio completo, con datos de ejemplo." />
     <meta property="og:url" content="https://gastontecheradev.github.io/rednexa-demo/" />
-    <meta property="og:image" content="https://gastontecheradev.github.io/rednexa-demo/compartir.png?v=2" />
+    <meta property="og:image" content="https://gastontecheradev.github.io/rednexa-demo/compartir.png?v=3" />
     <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="1044" />
+    <meta property="og:image:width" content="750" />
+    <meta property="og:image:height" content="600" />
     <meta property="og:image:alt" content="Logo de Red Nexa" />
     <meta name="twitter:card" content="summary_large_image" />
     <link rel="icon" href="${favicon}" sizes="32x32" />

@@ -42,7 +42,7 @@ function encabezado(ctx, pagina) {
     return html`
     <header class="encabezado">
         <div class="encabezado__barra">
-            <a class="logo" href="/"><img class="logo__marca" src="${LOGO}" alt="" width="60" height="64" />${SITIO.nombre}</a>
+            <a class="logo" href="/"><picture class="logo__marca"><source media="(min-width: 700px)" srcset="${LOGO_26}" width="25" height="26" /><img src="${LOGO}" alt="" width="22" height="24" /></picture>${SITIO.nombre}</a>
             ${pagina.administracion ? html`<span class="logo__etiqueta">Administración</span>` : ''}
             <nav class="encabezado__nav" aria-label="Principal">
                 <a href="/categorias"${actual('/categorias')}>Categorías</a>
@@ -64,7 +64,7 @@ function menuSitio(ctx) {
     <dialog id="menu-sitio" class="menu" aria-label="Menú">
         <div class="menu__contenido">
             <div class="menu__cabecera">
-                <a class="logo" href="/"><img class="logo__marca" src="${LOGO}" alt="" width="60" height="64" />${SITIO.nombre}</a>
+                <a class="logo" href="/"><img class="logo__marca" src="${LOGO}" alt="" width="22" height="24" />${SITIO.nombre}</a>
                 <button type="button" class="menu__cerrar" data-menu-cerrar autofocus>
                     ${icono('cerrar')}
                     <span class="sr-only">Cerrar el menú</span>
@@ -101,7 +101,7 @@ function pie(ctx) {
         <div class="pie__interior">
             <div class="pie__principal">
                 <div class="pie__marca">
-                    <a class="logo" href="/"><img class="logo__marca" src="${LOGO}" alt="" width="60" height="64" />${SITIO.nombre}</a>
+                    <a class="logo" href="/"><img class="logo__marca" src="${LOGO}" alt="" width="22" height="24" />${SITIO.nombre}</a>
                     <p>La guía de servicios de Melo. Profesionales, oficios y personas que buscan trabajo.</p>
                 </div>
                 <nav class="pie__columnas" aria-label="Enlaces del sitio">

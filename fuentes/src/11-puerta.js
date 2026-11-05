@@ -39,7 +39,7 @@ function pintarPuerta(m = {}, errores = {}) {
     document.body.innerHTML = String(html`
     <header class="encabezado">
         <div class="encabezado__barra">
-            <span class="logo"><img class="logo__marca" src="${LOGO}" alt="" width="60" height="64" />${SITIO.nombre}</span>
+            <span class="logo"><picture class="logo__marca"><source media="(min-width: 700px)" srcset="${LOGO_26}" width="25" height="26" /><img src="${LOGO}" alt="" width="22" height="24" /></picture>${SITIO.nombre}</span>
         </div>
     </header>
     <main id="contenido" data-puerta>
