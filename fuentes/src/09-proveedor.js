@@ -114,6 +114,27 @@ function pOfrecer(ctx, m = null, errores = {}, terminos = []) {
                 </div>
                 ${publicasComo(m, errores, terminos, 'Empresa (con RUT)')}
                 ${campoPresentacion(m, errores, terminos, 'Contá quién sos y cómo trabajás. Se muestra en todas tus fichas.', null)}
+                <section class="declaracion" aria-labelledby="declaracion-titulo">
+                    <h2 class="declaracion__titulo" id="declaracion-titulo">Antes de seguir</h2>
+                    <p class="declaracion__bajada">Al ofrecer servicios en Red Nexa declarás que:</p>
+                    <ul class="declaracion__lista">
+                        <li>Sos mayor de dieciocho (18) años.</li>
+                        <li>La información que proporcionás es verdadera, completa y actualizada.</li>
+                        <li>Sos responsable de los servicios que publicás y prestás.</li>
+                        <li>Tenés las habilitaciones, matrículas, títulos, permisos o autorizaciones que correspondan a tu actividad.</li>
+                        <li>Sos responsable de cumplir tus obligaciones tributarias, laborales, previsionales, profesionales, municipales y demás obligaciones legales.</li>
+                        <li>Tenés derecho a utilizar los contenidos que publicás.</li>
+                        <li>Comprendés que Red Nexa facilita el contacto entre personas, siendo éste su objeto.</li>
+                        <li>Comprendés que Red Nexa no es parte de las relaciones o contrataciones que puedan establecerse entre usuarios.</li>
+                        <li>Comprendés que la suscripción no garantiza contrataciones, ingresos, contactos ni resultados económicos.</li>
+                        <li>Aceptás los <a href="/terminos" target="_blank" rel="noopener">Términos y Condiciones</a> y las <a href="/privacidad" target="_blank" rel="noopener">Políticas de Red Nexa</a> que resulten aplicables.</li>
+                    </ul>
+                    <label class="casilla">
+                        <input aria-describedby="DeclaraPrestador-error" type="checkbox" id="DeclaraPrestador" name="DeclaraPrestador" value="true"${bool('checked', m.DeclaraPrestador === 'true')} />
+                        <span>Declaro que todo lo anterior es cierto</span>
+                    </label>
+                    ${errorDe(errores, 'DeclaraPrestador', { id: 'DeclaraPrestador-error' })}
+                </section>
                 <div class="formulario__acciones formulario__acciones--pasos">
                     <p class="formulario__acciones-nota">Se guarda como borrador: podés seguir después.</p>
                     <button type="submit" class="boton boton--primario">Continuar</button>
@@ -131,6 +152,8 @@ function postOfrecer(ctx, d) {
     const gran = categoriaDe(entero(d.GranRubroId));
     if (!gran || gran.padreId) errores.GranRubroId = 'Elegí cómo te presentás: si sabés hacer algo o si tenés una profesión.';
     const { empresa, rut, terminos } = validarPerfil(d, errores);
+    // Términos 33 y 34: la declaración del prestador. El sitio la guarda como AceptacionLegal; la demo sólo la exige.
+    if (d.DeclaraPrestador !== 'true') errores.DeclaraPrestador = 'Marcá la casilla: para ofrecer servicios tenés que aceptar la declaración.';
     if (Object.keys(errores).length) return pOfrecer(ctx, d, errores, terminos);
     const t = ahora();
     const nombre = texto(d.NombreComercial);

@@ -74,6 +74,11 @@ ok((await texto('.opiniones__cuenta'))?.startsWith('13 opiniones'), 'ficha: ahor
 await ir('/ofrecer');
 await marcar('input[name=GranRubroId][value="' + (await b.evaluar(`document.querySelectorAll('input[name=GranRubroId]')[0].value`)) + '"]');
 await llenar('#Descripcion', 'Paseo perros y cuido mascotas en Melo, con experiencia y mucha paciencia.');
+ok((await b.evaluar(`document.querySelectorAll('.declaracion__lista li').length`)) === 10, 'ofrecer: la declaración del prestador a la vista');
+await clic('form.formulario button[type=submit]');
+ok((await texto('[data-valmsg-for="DeclaraPrestador"]')) === 'Marcá la casilla: para ofrecer servicios tenés que aceptar la declaración.', 'ofrecer: sin la declaración no sigue');
+ok((await b.evaluar(`document.querySelector('#Descripcion').value`)).startsWith('Paseo perros'), 'ofrecer: sin la declaración conserva lo escrito');
+await marcar('#DeclaraPrestador');
 await clic('form.formulario button[type=submit]');
 const servicioUrl = await hash();
 ok(/#\/mi-perfil\/servicios\/\d+\/datos/.test(servicioUrl), 'ofrecer: crea el perfil y va al paso 2');
@@ -157,7 +162,12 @@ await ir('/mi-curriculum');
 await llenar('#QueSabeHacer', 'Atención al público y manejo de caja.');
 await llenar('#Cursos', '2024 Atención al cliente (INEFOP)');
 await clic('.cv-propio__acciones button[type=submit]');
+ok((await texto('[data-valmsg-for="MayorDeEdad"]')) === 'Marcá la casilla: el Curriculum es sólo para mayores de 18 años.', 'CV nuevo: sin declarar la edad no se publica');
+await marcar('#MayorDeEdad');
+await clic('.cv-propio__acciones button[type=submit]');
 ok((await texto('.cuenta-pagina__contenido > .aviso')) === 'Listo, tu CV ya se ve en Curriculum.', 'CV publicado');
+await ir('/mi-curriculum');
+ok(!(await b.evaluar(`!!document.querySelector('#MayorDeEdad')`)), 'CV publicado: al editarlo no vuelve a pedir la edad');
 await ir('/curriculum');
 ok((await b.evaluar(`[...document.querySelectorAll('.cv-tarjeta__nombre')].map((x) => x.textContent.trim())`)).includes('María González'), 'CV en el listado, con el nombre completo');
 

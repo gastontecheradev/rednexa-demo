@@ -513,6 +513,13 @@ function pMiCurriculum(ctx, m = null, errores = {}) {
             <span class="interruptor__pista" aria-hidden="true"></span>
             <span>Mostrar mi correo (${u.correo}) en mi CV</span>
         </label>
+        ${!cv ? html`<div class="campo">
+            <label class="casilla">
+                <input aria-describedby="MayorDeEdad-error"${invalido(errores, 'MayorDeEdad')} type="checkbox" id="MayorDeEdad" name="MayorDeEdad" value="true"${bool('checked', m.MayorDeEdad === 'true')} />
+                <span>Soy mayor de 18 años</span>
+            </label>
+            ${errorDe(errores, 'MayorDeEdad', { id: 'MayorDeEdad-error' })}
+        </div>` : ''}
         <div class="formulario__acciones cv-propio__acciones">
             <button type="submit" class="boton boton--primario">${cv ? 'Guardar' : 'Publicar mi CV'}</button>
             ${cv?.estado === 'Publicado' ? html`<button type="submit" class="boton boton--secundario" form="pausar-cv">Pausar CV</button><p class="formulario__acciones-nota">¿Conseguiste trabajo? Pausalo y conservás los datos.</p>`
@@ -535,6 +542,8 @@ function postMiCurriculum(ctx, d) {
     if ((d.Experiencia || '').length > 3000) errores.Experiencia = 'Puede tener hasta 3000 caracteres.';
     const telefono = texto(d.Telefono) ? Tel.normalizar(d.Telefono) : null;
     if (texto(d.Telefono) && !telefono) errores.Telefono = 'Revisá el teléfono: un celular es como 099 123 456 y un fijo, como 4642 1234.';
+    // Términos 4.3: se declara una vez, al publicar el CV por primera vez.
+    if (!cvDeUsuario(u.id) && d.MayorDeEdad !== 'true') errores.MayorDeEdad = 'Marcá la casilla: el Curriculum es sólo para mayores de 18 años.';
     if (Object.keys(errores).length) return pMiCurriculum(ctx, d, errores);
 
     const datos = {
